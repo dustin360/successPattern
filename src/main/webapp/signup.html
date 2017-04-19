@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html >
+<head>
+	  <meta charset="UTF-8">
+	  <title>Sign-Up</title>
+	  <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
+	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+	  <link rel="stylesheet" href="css/style2.css">
+		<script type="text/javascript">
+			var message = "Registration Successful";
+			if (${save!} == 1)
+			{
+				alert(message);
+				window.location.href = '/';	
+			}
+		</script>
+  
+</head>
+
+<body>
+  	<div class="form">
+      	<h3 align="center" style="color: red;">${information!} ${error3!} ${error2!}</h3>
+      	<h1>Sign Up for Free</h1>
+      
+	<div class="tab-content2">
+	  	<div id="signup"> 
+		      
+		 	<form action="/signup" method="post">
+				<div class="user_category_div" style="text-align: right;">
+					<select name="user_category" class="user_category" style="background: #1ab188; color: #ffffff; font-size: xx-large;">
+						<option value="staff" >Staff</option>
+						<option value="student">Student</option>
+					</select>
+				</div>
+				<br><br>
+	
+			  	<div class="field-wrap">
+			    	<label>
+			      		Full Name<span class="req">*</span>
+			    	</label>
+			    	<input type="text"  name="name" autocomplete="on"/>
+			  	</div>
+	          
+	          	<div class="field-wrap">
+	            	<label>
+	              		Email Address<span class="req">*</span>
+	            	</label>
+	            	<input type="email" name="email" autocomplete="on"/>
+	          	</div>
+	          			      
+		    	<div class="top-row">
+		        	<div class="field-wrap">
+		          		<label>
+		            		Username<span class="req">*</span>
+		          		</label>
+		          		<input type="text" name="username" autocomplete="on" />
+		        	</div>
+		    
+			        <div class="field-wrap">
+			          	<label>
+			            	Password <span class="req">*</span>
+			          	</label>
+			          	<input type="password" name="password" autocomplete="off"/>
+			        </div>
+				</div>
+	          
+	          	<button type="submit" class="button button-block"/>Get Started</button>
+	          
+	   		</form>
+
+        </div>  
+      </div><!-- tab-content -->
+      
+</div> <!-- /form -->
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+    <script src="js/index.js"></script>
+
+</body>
+</html>
