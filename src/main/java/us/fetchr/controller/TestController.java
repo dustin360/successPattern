@@ -1,6 +1,5 @@
 package us.fetchr.controller;
 
-import static org.mockito.Matchers.anyString;
 
 import java.sql.Timestamp;
 import java.util.List;
