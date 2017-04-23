@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>login</title>
+		<link rel="stylesheet" href="../../css/main.css" />
+	</head>
+	
+    <body>
+    	<h1 class="login" style="color: blue;">LOGIN PAGE</h1>
+    	<div class="formDiv">
+	        <form method="POST" action="/login">
+	            <table style="width: 30%">
+	                <tr>
+	                    <td>username:</td>
+	                    <td><input type="text" name="username" placeholder="username"/></td>
+	                    <td>${error1!}</td>
+	                </tr>
+	                <tr>
+	                    <td>password:</td>
+	                    <td><input type="password" name="password" placeholder="**********"/></td>
+	                    <td>${error2!}</td>
+	                </tr>
+	                <tr>
+	                	<td>${error3!}</td>
+	                </tr>
+	                <tr>
+	                    <td><button type="submit">Submit</button></td>
+	                </tr>
+	                
+	            </table>
+	        </form>
+		</div>
+    </body>
+</html>
+
