@@ -1,4 +1,4 @@
-package us.freeenergy.model;
+package us.fetchr.dbModels;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-public class ApiCreateStaff 
+public class Staff 
 {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

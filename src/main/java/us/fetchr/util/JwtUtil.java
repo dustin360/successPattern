@@ -1,4 +1,4 @@
-package us.freeenergy.util;
+package us.fetchr.util;
 
 import java.text.ParseException;
 import java.util.Date;

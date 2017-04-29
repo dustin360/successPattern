@@ -1,4 +1,4 @@
-package us.freeenergy.model;
+package us.fetchr.apiresources;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -9,12 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
-@Table(name="TimeLine")
-public class ApiCreateTimelinePost 
+public class ApiCreateTimeLinePost 
 {
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	private String timelinePost;
 	private Timestamp time;

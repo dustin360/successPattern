@@ -1,31 +1,29 @@
-package us.freeenergy.model;
+package us.fetchr.dbModels;
 
 import java.util.Date;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
-
-public class ApiCreateStudent 
+@Entity
+public class Student 
 {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	private String name;
+	
+	@Column(unique=true)
 	private String username;
 	private String password;
+	
+	@Column(unique=true)
 	private String email;
 	
-	private List<ApiCreateTimelinePost> timeLinePost;	//
 	private String hobbies;
-	private String course_of_study;   //
-	private String DOB;
+	private Date DOB;
 	private String best_movies;
 	private String best_books;
 	
@@ -66,18 +64,10 @@ public class ApiCreateStudent
 	public void setHobbies(String hobbies) {
 		this.hobbies = hobbies;
 	}
-	public String getCourse_of_study() {
-		return course_of_study;
-	}
-	public void setCourse_of_study(String course_of_study) {
-		this.course_of_study = course_of_study;
-	}
-
-
-	public String getDOB() {
+	public Date getDOB() {
 		return DOB;
 	}
-	public void setDOB(String dOB) {
+	public void setDOB(Date dOB) {
 		DOB = dOB;
 	}
 	public String getBest_movies() {
@@ -92,10 +82,5 @@ public class ApiCreateStudent
 	public void setBest_books(String best_books) {
 		this.best_books = best_books;
 	}
-	public List<ApiCreateTimelinePost> getTimeLinePost() {
-		return timeLinePost;
-	}
-	public void setTimeLinePost(List<ApiCreateTimelinePost> timeLinePost) {
-		this.timeLinePost = timeLinePost;
-	}	
+		
 }

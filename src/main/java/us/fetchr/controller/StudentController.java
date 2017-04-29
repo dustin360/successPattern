@@ -1,4 +1,4 @@
-package us.freeenergy.controller;
+package us.fetchr.controller;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,22 +14,36 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.nimbusds.jose.JOSEException;
 import io.jsonwebtoken.Claims;
-import us.fetchr.cpsso.entities.CourseOfStudy;
-import us.fetchr.cpsso.entities.Student;
-import us.fetchr.cpsso.entities.TimeLinePost;
-import us.freeenergy.model.ApiCreateStudent;
-import us.freeenergy.model.ApiCreateTimelinePost;
-import us.freeenergy.service.ServiceClass;
-import us.freeenergy.util.CookieUtil;
-import us.freeenergy.util.JwtUtil;
+import us.fetchr.apiresources.ApiCreateStudent;
+import us.fetchr.dao.StaffDao;
+import us.fetchr.dao.StudentDao;
+import us.fetchr.dao.StudentToTimelineMapDao;
+import us.fetchr.dao.TimeLinePostDao;
+import us.fetchr.dbModels.CourseOfStudy;
+import us.fetchr.dbModels.Student;
+import us.fetchr.dbModels.StudentToCourseMapper;
+import us.fetchr.dbModels.StudentToTimelineMapping;
+import us.fetchr.dbModels.TimeLinePost;
+import us.fetchr.service.CPSSOservice;
+import us.fetchr.util.CookieUtil;
+import us.fetchr.util.JwtUtil;
 
 @Controller
 public class StudentController {
 	private static final String SIGNING_KEY = "ForGodSoLovedThe$$Worldthathegavehisonlybegottensonthatwhosoeverbelivedinhimshouldnotperish";
 	private static final String jwtTokenCookieName = "THE-INSTITUTE";
 	
+	/*@Autowired
+	StaffDao staffDao;
 	@Autowired
-	ServiceClass serviceClass;
+	StudentDao studentDao;
+	@Autowired
+	StudentToTimelineMapDao studentToTimelineMapDao;
+	@Autowired
+	TimeLinePostDao timeLinePostDao;*/
+	@Autowired
+	CPSSOservice cpssoService;
+	
 	
 	@RequestMapping(value="/login", method = RequestMethod.POST, params={"user_category=student"})
 	public String loginForStudent(@Valid ApiCreateStudent student, BindingResult bindingResult, Model model, HttpServletRequest request, HttpServletResponse httpServletResponse) throws JOSEException
@@ -47,7 +61,7 @@ public class StudentController {
 		}
 		
 		//Check if the Customer exist on the DB
-		Student student2 = serviceClass.findByUsernameandPassword(student.getUsername(), student.getPassword());
+		Student student2 = cpssoService.findStudentByUsername(student.getUsername());
 		if (student2 == null)
 		{
 			model.addAttribute("error3", "Your Credentials do not exist");
@@ -91,7 +105,7 @@ public class StudentController {
 			return "login";
 		}
 		
-		Student student = serviceClass.findByUsernameandEmail(username, email);
+		Student student = cpssoService.findStudentByUsernameAndEmail(username, email);
 		if(student == null){
 			return "login";
 		}
@@ -127,7 +141,7 @@ public class StudentController {
 			return "login";
 		}
 		
-		Student student = serviceClass.findByUsernameandEmail(username, email);
+		Student student = cpssoService.findStudentByUsernameAndEmail(username, email);
 		if(student == null){
 			return "login";
 		}
@@ -137,21 +151,32 @@ public class StudentController {
 		model.addAttribute("name", student.getName());
 		
 		//course of study
-		CourseOfStudy courseOfStudy = serviceClass.findCourseofStudyById(student.getId());
-		if (courseOfStudy == null){
+		List<StudentToCourseMapper> mapperList = cpssoService.findStudToCourseMapByStudentId(student.getId());
+		if (mapperList.isEmpty()){
 			model.addAttribute("courseOfStudy", "Course of Study not registered yet");
 		}
 		else{
-			model.addAttribute("courseOfStudy", courseOfStudy.getCourses());
+			String courses = "";
+			for(int i = 0; i < mapperList.size(); i++)
+			{
+				StudentToCourseMapper map = mapperList.get(i);
+				
+				CourseOfStudy courseOfStudy = cpssoService.findCourseOfStudyById(map.getCourseId());
+				courses = courseOfStudy.getCourses() + "/n";
+			}
+			model.addAttribute("courseOfStudy", courses);
 		}
 		
 		//timeline post
-		TimeLinePost timeLinePost = serviceClass.findTimelinePostByStudentId(student.getId());
-		if (timeLinePost == null){
+		List<StudentToTimelineMapping>  mappingList =  cpssoService.findStudToTimelinemapByStudentId(student.getId());
+		
+		if (mappingList.isEmpty()){
 			model.addAttribute("timeLinePost", "No posts");
 		}
 		else{
-			model.addAttribute("timeLinePost", timeLinePost.getTimelinePost());
+			StudentToTimelineMapping aMap = mappingList.get(0);
+			TimeLinePost aPost = cpssoService.findTimeLinePostById(aMap.getTimelineId());
+			model.addAttribute("timeLinePost", aPost.getTimelinePost());
 		}
 		
 		model.addAttribute("tag","Logout");		
@@ -161,7 +186,7 @@ public class StudentController {
 	/*
 	*//***********SIGNUP*************//*
 	@RequestMapping(value="/signup", method=RequestMethod.POST, params={"user_category=student"})
-	public String studentSignUp(@Valid ApiCreateStudent student, BindingResult bindingResult, Model model)
+	public String studentSignUp(@Valid Student student, BindingResult bindingResult, Model model)
 	{
 
 		if (bindingResult.hasErrors()){
@@ -174,7 +199,7 @@ public class StudentController {
 			return "signup";
 		}
 		
-		ApiCreateStudent student2 = studentDao.findByUsernameAndEmail(student.getUsername(), student.getEmail());
+		Student student2 = studentDao.findByUsernameAndEmail(student.getUsername(), student.getEmail());
 		if(student2 != null)
 		{
 			model.addAttribute("error2", "The Username or email already exist");

@@ -1,4 +1,4 @@
-package us.freeenergy.controller;
+package us.fetchr.controller;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -18,9 +18,14 @@ import org.springframework.web.context.support.HttpRequestHandlerServlet;
 
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jwt.JWTClaimsSet;
+
 import io.jsonwebtoken.Claims;
-import us.freeenergy.util.CookieUtil;
-import us.freeenergy.util.JwtUtil;
+import us.fetchr.dao.StaffDao;
+import us.fetchr.dao.StudentDao;
+import us.fetchr.dbModels.Staff;
+import us.fetchr.dbModels.Student;
+import us.fetchr.util.CookieUtil;
+import us.fetchr.util.JwtUtil;
 
 @Controller
 public class HomeController 
@@ -28,8 +33,13 @@ public class HomeController
 	private static final String SIGNING_KEY = "ForGodSoLovedThe$$Worldthathegavehisonlybegottensonthatwhosoeverbelivedinhimshouldnotperish";
 	private static final String jwtTokenCookieName = "THE-INSTITUTE";
 	
+	@Autowired
+	StaffDao staffDao;
 	
-	@RequestMapping(value="/")
+	@Autowired
+	StudentDao studentDao;
+	
+	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String startPage(Model model, HttpServletRequest request)
 	{
 		//Get cookie and decode

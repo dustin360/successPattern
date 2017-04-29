@@ -1,4 +1,4 @@
-package us.freeenergy.util;
+package us.fetchr.util;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;

@@ -1,0 +1,28 @@
+{
+	"name":"David Oyebanji",
+	"username":"dustin",
+	"password":"success",
+	"email":"davidoyebanji2000@gmail.com",
+	"hobbies":"singing",
+	"DOB":"18-12-1999",
+	"best_movies":"Bible",
+	"best_books":"Bible",
+	"timeLinePosts":
+	[
+		{
+			"timelinePost":"im happy"
+		},
+		{
+			"timelinePost":"i'm still happy'"
+		}
+	],
+	"courseOfStudy":
+	[
+		{
+			"courses":"Engineering"
+		},
+		{
+			"courses":"Socialogy"
+		}
+	]
+}

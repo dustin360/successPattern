@@ -1,4 +1,4 @@
-/*package us.freeenergy.controller;
+package us.fetchr.controller;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,17 +15,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.nimbusds.jose.JOSEException;
 
-import us.freeenergy.model.ApiCreateStaff;
-import us.freeenergy.util.CookieUtil;
-import us.freeenergy.util.JwtUtil;*/
+import us.fetchr.dao.StaffDao;
+import us.fetchr.dao.StudentDao;
+import us.fetchr.dbModels.Staff;
+import us.fetchr.util.CookieUtil;
+import us.fetchr.util.JwtUtil;
 
-/*public class StaffController 
+public class StaffController 
 {
 	private static final String SIGNING_KEY = "ForGodSoLovedThe$$Worldthathegavehisonlybegottensonthatwhosoeverbelivedinhimshouldnotperish";
 	private static final String jwtTokenCookieName = "THE-INSTITUTE";
 	
+	@Autowired
+	StaffDao staffService;
+	
+	@Autowired
+	StudentDao studentService;
+	
 	@RequestMapping(value="/login", method = RequestMethod.POST, params={"user_category=staff"})
-	public String loginForStaff(@Valid ApiCreateStaff staff, BindingResult bindingResult, Model model, HttpServletRequest request, HttpServletResponse httpServletResponse) throws JOSEException
+	public String loginForStaff(@Valid Staff staff, BindingResult bindingResult, Model model, HttpServletRequest request, HttpServletResponse httpServletResponse) throws JOSEException
 	{
 		//Check for Errors
 		if(bindingResult.hasErrors())
@@ -40,7 +48,7 @@ import us.freeenergy.util.JwtUtil;*/
 		}
 		
 		//Check if the Customer exist on the DB
-		ApiCreateStaff staff2 = staffService.findByUsername(staff.getUsername());
+		Staff staff2 = staffService.findByUsername(staff.getUsername());
 		if (staff2 == null)
 		{
 			model.addAttribute("error3", "Your Credentials do not exist");
@@ -61,9 +69,9 @@ import us.freeenergy.util.JwtUtil;*/
 	}
 	
 	
-	*//***********SIGNUP*************//*
+	/***********SIGNUP*************/
 	@RequestMapping(value="/signup", method=RequestMethod.POST, params={"user_category=staff"})
-	public String staffSignUp(@Valid ApiCreateStaff staff, BindingResult bindingResult, Model model)
+	public String staffSignUp(@Valid Staff staff, BindingResult bindingResult, Model model)
 	{
 
 		if (bindingResult.hasErrors()){
@@ -76,7 +84,7 @@ import us.freeenergy.util.JwtUtil;*/
 			return "signup";
 		}
 		
-		ApiCreateStaff staff2 = staffService.findByUsernameAndEmail(staff.getUsername(), staff.getEmail());
+		Staff staff2 = staffService.findByUsernameAndEmail(staff.getUsername(), staff.getEmail());
 		if(staff2 != null)
 		{
 			model.addAttribute("error2", "The Username or email already exist");
@@ -87,4 +95,4 @@ import us.freeenergy.util.JwtUtil;*/
 		model.addAttribute("save", 1);
 		return "signup";
 	}
-}*/
+}

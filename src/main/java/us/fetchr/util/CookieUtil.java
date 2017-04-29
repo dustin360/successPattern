@@ -1,4 +1,4 @@
-package us.freeenergy.util;
+package us.fetchr.util;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +13,8 @@ public class CookieUtil {
 		cookie.setSecure(secure);
 		cookie.setHttpOnly(true);
 		cookie.setMaxAge(maxAge);
-		cookie.setDomain(domain);
+		cookie.setDomain("35.158.81.104");
+		//cookie.setDomain(domain);
 		cookie.setPath("/");
 		httpServletResponse.addCookie(cookie);
 	}
